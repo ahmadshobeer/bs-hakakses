@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="card card-default">
       <div class="card-header">
-        <h3 class="card-title">Realisasi Kredit</h3>
+        <h3 class="card-title">Realisasi Kredit Produk</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -16,22 +16,22 @@
 
       <div class="card-body">
         <div>
-          <!-- <form> -->
+          <form>
             <div class="form-group row">
               <div class="col-md-4 col-sm-9 col-xs-12">
                 <label class="control-label">Cabang</label>
                 <select class="form-control" name="cab" id="cab" required>
                   <option value="" selected="selected" disabled>= PILIH =</option>
                   <?php 
-                    $sqlquery="SELECT * FROM tbl_cabang";
-                    $runsql=mysqli_query($conn,$sqlquery);
-                    while($varData=mysqli_fetch_array($runsql)){
-                      $var_id=$varData['id_cabang'];
-                      // $var_child=$varData['child'];
-                      $var_nama=$varData['nama_cabang'];?>
-                      <option value="<?php echo $var_child ?>"><?php echo $var_id ?> - <?php echo $var_nama ?></option>
-                      <?php
-                    }
+                  $sqlquery="SELECT * FROM tbl_cabang";
+                  $runsql=mysqli_query($conn,$sqlquery);
+                  while($varData=mysqli_fetch_array($runsql)){
+                    $var_id=$varData['id_cabang'];
+                    $var_child=$varData['child'];
+                    $var_nama=$varData['nama_cabang'];?>
+                    <option value="<?php echo $var_child ?>"><?php echo $var_id ?> - <?php echo $var_nama ?></option>
+                    <?php
+                  }
                   ?>
                 </select>  
               </div>
@@ -84,14 +84,14 @@
                 <input type="button" name="search" id="search" value="Search" class="form-control btn btn-info" />
               </div>                      
             </div>
-          <!-- </form> -->
+          </form>
+
         </div>
 
       </div>
 
-      <div class="card-body">
-        <div class="table-responsive">
-        <table id="tabeldata" class="table table-bordered table-striped">
+      <div class="card-body result">
+        <table id="example1" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th class="text-center">No.</th>         
@@ -102,7 +102,7 @@
               <th class="text-center">No PK</th>
               <th class="text-center">CIF</th>
               <th class="text-center">NIK</th>
-              <th class="text-center">Nama Lengkap</th>
+            <!--   <th class="text-center">Nama Lengkap</th>
               <th class="text-center">Jenis Kelamin</th>
               <th class="text-center">Tempat Lahir</th>
               <th class="text-center">Tgl Lahir</th>
@@ -119,15 +119,11 @@
               <th class="text-center">No Rekening Lama</th>     
               <th class="text-center">Kode AO</th> 
               <th class="text-center">Status</th> 
-              <th class="text-center">Usin</th>  
+              <th class="text-center">Usin</th>   -->
             </tr>
-          </thead>
-          <tbody>
-          </tbody>
+          </thead>          
 
         </table>
-        </div>
-        
       </div>
 
     </div>
@@ -136,45 +132,125 @@
   </div>
 
   <script type="text/javascript" language="javascript" >
-
     $(document).ready(function(){
-       var table =  $('#tabeldata').DataTable({
-        "processing": true,
-        "serverSide": true,
-            ajax: {
-                url: 'api/apiRealisasiKredit.php',
-                type: 'POST',
-                data: function(d) {
-                    d.cabang = $('#cab').val();
-                    d.produk = $('#prod').val();
-                    d.tgl_awal = $('#tgl').val();
-                    d.tgl_akhir = $('#tgl2').val();
-                    d.ao = $('#ao').val();
+      fetch_data('no');
+
+      function fetch_data(is_date_search, tgl='', tgl2='', prod='', cab='', ao='')
+      {
+        var dataTable = $('#lapdata').DataTable({
+          "processing" : true,
+          "serverSide" : true,
+          "paging":   false,
+          "searching":   false,
+          "dom": 'Blfrtip',
+          "buttons": [
+            {
+              extend: 'excel',
+              text: 'Excel',
+              header: true,
+              title: 'Laporan Realisasi Pinjaman'
+            },
+            {
+              extend: 'pdfHtml5',
+              text: 'PDF',
+              exportOptions: {
+                modifier: {
+                  page: 'current'
                 }
+              },
+              header: true,
+              title: 'Laporan Realisasi Pinjaman',
+              orientation: 'landscape',
+              customize: function(doc) {
+                doc.defaultStyle.fontSize = 5; 
+                doc.styles.tableHeader.fontSize = 6;    
+              }  
+            }, 
+            {
+              extend: 'print',
+              text: 'Print',
+              title: '',
+              orientation: 'landscape',
+              paging: true,
+              customize: function ( win ) {
+                $(win.document.body)
+                .css( 'font-size', '9px' );
+
+                $(win.document.body).find( 'table' )
+                .css( 'font-size', '9px' );
+              }
             }
+          ],
+          oLanguage: {sProcessing: "<img style='width:60px; height:60px;' src='../assets/img/loading.gif' />"},    
+          "order" : [],
+          "ajax" : {
+            url:"../api/kredit/apiRealisasiKredit.php",
+            type:"POST",
+            data:{
+              is_date_search:is_date_search, tgl:tgl, tgl2:tgl2, prod:prod, cab:cab, ao:ao
+            }
+          },
+          "columnDefs": [  
+            {
+              "sClass":"text-center",          
+              targets: [0],          
+            },
+            {
+              "sClass":"text-center",          
+              targets: [1],          
+            },
+            {
+              "sClass":"text-center",          
+              targets: [2],          
+            },
+            {
+              "sClass":"text-center",          
+              targets: [3],          
+            },
+            {
+              "sClass":"text-left",          
+              targets: [8],          
+            }, 
+            {
+              "sClass":"text-center",          
+              targets: [9],          
+            },
+            {
+              "sClass":"text-right",          
+              targets: [10],          
+            },
+            {
+              "sClass":"text-center",          
+              targets: [11],          
+            },
+            {
+              "sClass":"text-center",          
+              targets: [12],          
+            },  
+          ]       
         });
+      }
 
+      $('#search').click(function(){
+        var tgl = $('#tgl').val();
+        var tgl2 = $('#tgl2').val();
+        var prod = $('#prod').val();
+        var cab = $('#cab').val();
+        var ao = $('#ao').val();
+        if(tgl !='' || tgl2 !='' || prod !='' || cab !='' || ao !='')
+        {
+          $('#lapdata').DataTable().destroy();
+          fetch_data('yes', tgl, tgl2, prod, cab, ao);
+          $('.result').show(); 
+        }
+        else
+        {
+          alert("Tanggal data harus diisi!!");
+        }
+      }); 
 
-      $('#search').on('click', function() {
-        table.ajax.reload();
     });
-      });
-    
   </script> 
-
-<!-- DataTables  & Plugins -->
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="plugins/jszip/jszip.min.js"></script>
-<script src="plugins/pdfmake/pdfmake.min.js"></script>
-<script src="plugins/pdfmake/vfs_fonts.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
 <script>
   $(function () {
