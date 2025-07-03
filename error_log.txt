@@ -58,3 +58,5 @@
 [03-Jul-2025 09:02:01 UTC] PHP Warning:  Undefined variable $var_child in D:\MASTER\laragon\www\bs-hakakses\modul\kredit\realisasi-kredit.php on line 32
 [03-Jul-2025 09:02:38 UTC] PHP Warning:  Undefined variable $var_child in D:\MASTER\laragon\www\bs-hakakses\modul\kredit\realisasi-kredit.php on line 32
 [03-Jul-2025 09:02:38 UTC] PHP Warning:  Undefined variable $var_child in D:\MASTER\laragon\www\bs-hakakses\modul\kredit\realisasi-kredit.php on line 32
+[03-Jul-2025 09:08:07 UTC] PHP Warning:  Undefined variable $var_child in D:\MASTER\laragon\www\bs-hakakses\modul\kredit\realisasi-kredit.php on line 32
+[03-Jul-2025 09:08:07 UTC] PHP Warning:  Undefined variable $var_child in D:\MASTER\laragon\www\bs-hakakses\modul\kredit\realisasi-kredit.php on line 32

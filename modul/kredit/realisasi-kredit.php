@@ -145,6 +145,7 @@
                 url: 'api/apiRealisasiKredit.php',
                 type: 'POST',
                 data: function(d) {
+                  console.log(d);
                     d.cabang = $('#cab').val();
                     d.produk = $('#prod').val();
                     d.tgl_awal = $('#tgl').val();
