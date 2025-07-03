@@ -1,0 +1,5 @@
+[03-Jul-2025 04:55:05 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'kd_grup' in 'where clause' in D:\MASTER\laragon\www\bs-hakakses\modul\setting\proses.php:104
+Stack trace:
+#0 D:\MASTER\laragon\www\bs-hakakses\modul\setting\proses.php(104): mysqli_query(Object(mysqli), 'DELETE from tbl...')
+#1 {main}
+  thrown in D:\MASTER\laragon\www\bs-hakakses\modul\setting\proses.php on line 104
