@@ -54,7 +54,7 @@
               </div>
               <div class="col-md-2 col-sm-9 col-xs-12">      
                 <label class="control-label">Tanggal</label>      
-                <input type="text" name="tgl" id="tgl" class="form-control tanggal" autocomplete="off" maxlength="8" required/>
+                <input type="text" name="tgl" id="tgl" class="form-control tanggal" data-provide="datepicker" data-date-format="dd-mm-yyyy" value="<?= date("d-m-Y")?>" data-date-autoclose="true"  autocomplete="off" maxlength="8" required/>
               </div>
               <div class="col-md-2 col-sm-9 col-xs-12">      
                 <label class="control-label">Sampai Tanggal</label>      

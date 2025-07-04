@@ -54,11 +54,13 @@
               </div>
               <div class="col-md-2 col-sm-9 col-xs-12">      
                 <label class="control-label">Tanggal</label>      
-                <input type="text" name="tgl" id="tgl" class="form-control tanggal" autocomplete="off" maxlength="8" required/>
+                <input type="text" name="tgl" id="tgl" class="form-control tanggal" autocomplete="off"  data-date-autoclose="true" required/>
+                
               </div>
               <div class="col-md-2 col-sm-9 col-xs-12">      
                 <label class="control-label">Sampai Tanggal</label>      
-                <input type="text" name="tgl2" id="tgl2" class="form-control tanggal" autocomplete="off" maxlength="8" required/>
+               
+                <input type="text" name="tgl" id="tgl2" class="form-control tanggal" autocomplete="off"  data-date-autoclose="true" required/>
               </div>           
             </div>
             <div class="form-group row">

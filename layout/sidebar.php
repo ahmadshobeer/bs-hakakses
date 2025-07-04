@@ -4,13 +4,16 @@
             with font-awesome or any other icon font library -->
 
 <?php
-
+	
+  $array_menu = array();
     $kd_hakakses='admin'; //ganti pake session login
 
 
 		$sql_menu = mysqli_query($conn,"SELECT a.`code_menu`,b.`desk_menu`,b.`icon`,b.`module`,b.`parent`,b.`path`,b.type FROM  tbl_menu_access a INNER JOIN  tbl_menu_group b 
                             ON a.`code_menu`=b.`code_menu` WHERE  b.level='1' AND b.show='Y' AND a.`kode_hakakses`='$kd_hakakses'  ORDER BY b.code_menu ASC");
 		while ($menu = mysqli_fetch_array($sql_menu)){
+
+			array_push($array_menu,$menu['module']);
 			if ($menu['type']=='1'){
 				if (($_GET['module']==$menu['module']) or (empty($_GET['module'])))
 					$active_menu = "active";
@@ -53,6 +56,7 @@
                           WHERE  b.level='2' AND b.show='Y' AND b.parent='$menu[code_menu]' and a.kode_hakakses='$kd_hakakses' ORDER BY b.code_menu ASC");						
 						while ($sub=mysqli_fetch_array($sql_sub)){
 							//form dari view
+							array_push($array_menu,$sub['module']);
 							$replace = $_GET['module'];
 							if (($_GET['module']==$sub['module']) or ($replace==$sub['module']))
 								$active_sub = "active";

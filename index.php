@@ -1,5 +1,6 @@
 <?php
   // error_reporting(0);
+
   session_start();
   include 'inc/inc-mis-core.php';
   include 'function/fun.php';
@@ -151,15 +152,17 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="dist/js/pages/dashboard.js"></script> -->
 
+  
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
  <script type="text/javascript">
   $(document).ready(function () {
-      $('.tanggal').datepicker({
-          format: "yyyymmdd",
-          autoclose:true,
-          todayHighlight:true,
-          orientation: "bottom auto"
-      });
+    $('.tanggal').datepicker({
+    format: 'yyyymmdd',       // Format yang diinginkan
+    autoclose: true,          // Menutup otomatis setelah pilih tanggal
+    todayHighlight: true,      // Menyoroti tanggal hari ini
+orientation: "bottom auto"
+  });
   });
 </script>
 </body>
