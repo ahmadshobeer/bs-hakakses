@@ -5,7 +5,7 @@
   include 'inc/inc-mis-core.php';
   include 'function/fun.php';
 
-  if (empty($_SESSION['kd_user'])){
+  if (empty($_SESSION['id_user'])){
 		echo "<meta http-equiv='refresh' content='0; url=login.php'>";
   }else{
 

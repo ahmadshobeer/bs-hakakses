@@ -1,7 +1,7 @@
 <?php
 
 
- if (empty($_SESSION['kd_user'])){
+ if (empty($_SESSION['id_user'])){
 		echo "<meta http-equiv='refresh' content='0; url=login.php'>";
   }else{
 	if(in_array($_GET['module'],$array_menu)){

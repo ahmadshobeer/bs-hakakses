@@ -17,34 +17,54 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
-   <?php  
+   <?php
+      if(isset($_POST['login'])){
+        include 'inc/inc-mis-core.php';
+        include 'function/fun.php';
 
-  
-        // fungsi untuk menampilkan pesan
-        // jika alert = "" (kosong)
-        // tampilkan pesan "" (kosong)
-        if (empty($_GET['alert'])) {
-            echo "";
-        } 
-        // jika alert = 1
-        // tampilkan pesan Gagal "Username atau Password salah, cek kembali Username dan Password Anda"
-        elseif ($_GET['alert'] == 1) {
-            echo "<div class='alert alert-danger alert-dismissable'>
-                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                    <h4>  <i class='icon fa fa-times-circle'></i> Gagal Login!</h4>
-                    Username atau Password salah, cek kembali Username dan Password Anda.
-                </div>";
+      $username =addslashes(trim($_POST['username']));
+      $password = addslashes(trim($_POST['password']));
+
+      // pastikan username dan password adalah berupa huruf atau angka.
+      if (!ctype_alnum($username) OR !ctype_alnum($password)) {
+        echo "<div class='alert alert-danger alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h5><i class='icon fas fa-ban'></i> Login Gagal</h5>
+                 Username & Password tidak sesuai...
+                </div> ";
+      }
+      else {
+        // ambil data dari tabel user untuk pengecekan berdasarkan inputan username dan passrword
+        $query = mysqli_query($conn, "SELECT u.*,a.nama_hakakses,c.nama_cabang FROM tbl_user u inner join tbl_hakakses a on u.hakakses=a.kode_hakakses
+        inner join tbl_cabang c on u.id_cabang=c.id_cabang
+        WHERE u.username='$username' AND u.password='$password'")
+                        or die('Ada kesalahan pada query user: '.mysqli_error($conn));
+        $rows  = mysqli_num_rows($query);
+
+        // jika data ada, jalankan perintah untuk membuat session
+        if ($rows > 0) {
+          $data  = mysqli_fetch_assoc($query);
+
+          session_start();
+          $_SESSION['id_user']   = $data['id_user'];
+          $_SESSION['id_cabang']   = $data['id_cabang'];
+          $_SESSION['nama_lengkap']  = $data['nama_lengkap'];
+          $_SESSION['hak_akses']  = $data['hakakses'];
+          $_SESSION['nama_cabang'] = $data['nama_cabang'];
+          
+          
+          // lalu alihkan ke halaman user
+          header("Location: index.php?module=GeneralDashboard");
+        }else {
+         echo "<div class='alert alert-danger alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h5><i class='icon fas fa-ban'></i> Login Gagal</h5>
+                 Username & Password tidak sesuai...
+                </div> ";
         }
-        // jika alert = 2
-        // tampilkan pesan Sukses "Anda telah berhasil logout"
-        elseif ($_GET['alert'] == 2) {
-            echo "<div class='alert alert-success alert-dismissable'>
-                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                    <h4>  <i class='icon fa fa-check-circle'></i> Sukses!</h4>
-                    Anda telah berhasil logout.
-                </div>";
-        }
-        ?>
+      }
+      }
+    ?>
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
       <a href="index.php" class="h1"><b>MIS</b>Core</a>
@@ -52,7 +72,7 @@
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="login-cek.php" method="post">
+      <form action="#" method="post">
         <div class="input-group mb-3">
           <input type="text" class="form-control" name="username"  id="login-username"  placeholder="Username" required>
           <div class="input-group-append">
@@ -80,7 +100,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" name="login" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
